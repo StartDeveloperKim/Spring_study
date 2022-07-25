@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import chapter2.spring.ChangePasswordService;
 import chapter2.spring.MemberDao;
+import chapter2.spring.MemberInfoPrinter;
 import chapter2.spring.MemberListPrinter;
 import chapter2.spring.MemberPrinter;
 import chapter2.spring.MemberRegisterService;
@@ -38,5 +39,10 @@ public class config {
 	@Bean
 	public MemberListPrinter listPrinter() {
 		return new MemberListPrinter(memberDao(), memberPrinter());
+	}
+	
+	@Bean
+	public MemberInfoPrinter infoPrinter() {
+		return new MemberInfoPrinter(memberDao(), memberPrinter());
 	}
 }
