@@ -1,48 +1,38 @@
 package chapter2.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import chapter2.spring.ChangePasswordService;
-import chapter2.spring.MemberDao;
-import chapter2.spring.MemberInfoPrinter;
-import chapter2.spring.MemberListPrinter;
 import chapter2.spring.MemberPrinter;
-import chapter2.spring.MemberRegisterService;
+import chapter2.spring.MemberSummaryPrinter;
+import chapter2.spring.VersionPrinter;
 
 
 @Configuration
+@ComponentScan(basePackages = {"chapter2.spring"})
 public class config {
 	
-	@Bean
-	public MemberDao memberDao() {
-		return new MemberDao();
-	}
 	
 	@Bean
-	public MemberRegisterService memberRegSvc() {
-		return new MemberRegisterService(memberDao());
-	}
-	
-	@Bean
-	public ChangePasswordService changePwdSvc() {
-		ChangePasswordService pwdSvc = new ChangePasswordService();
-		pwdSvc.setMemberDao(memberDao());
-		return pwdSvc;
-	}
-	
-	@Bean
-	public MemberPrinter memberPrinter() {
+	@Qualifier("printer")
+	public MemberPrinter memberPrinter1() {
 		return new MemberPrinter();
 	}
 	
 	@Bean
-	public MemberListPrinter listPrinter() {
-		return new MemberListPrinter(memberDao(), memberPrinter());
+	@Qualifier("summaryPrinter")
+	public MemberSummaryPrinter memberPrinter2() {
+		return new MemberSummaryPrinter();
 	}
 	
 	@Bean
-	public MemberInfoPrinter infoPrinter() {
-		return new MemberInfoPrinter(memberDao(), memberPrinter());
+	public VersionPrinter versionPrinter() {
+		VersionPrinter versionPrinter = new VersionPrinter();
+		versionPrinter.setMajorVersion(5);
+		versionPrinter.setMinorVersion(0);
+		return versionPrinter;
 	}
+	
 }

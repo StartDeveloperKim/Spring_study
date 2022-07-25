@@ -15,6 +15,7 @@ import chapter2.spring.MemberListPrinter;
 import chapter2.spring.MemberNotFoundException;
 import chapter2.spring.MemberRegisterService;
 import chapter2.spring.RegisterRequest;
+import chapter2.spring.VersionPrinter;
 import chapter2.spring.WrongIdPasswordException;
 
 
@@ -51,13 +52,18 @@ public class main {
 				processInfoCommand(command.split(" "));
 				continue;
 			}
+			else if(command.equals("version")) {
+				processVersionCommand();
+				continue;
+			}
 			printHelp();
 		}
 	}
 	
-	
 
-	
+
+
+
 	private static void processNewCommand(String[] arg) {
 		if(arg.length != 5) {
 			printHelp();
@@ -65,7 +71,7 @@ public class main {
 		}
 		
 		MemberRegisterService regSvc = 
-				ctx.getBean("memberRegSvc", MemberRegisterService.class);
+				ctx.getBean(MemberRegisterService.class);
 		RegisterRequest req = new RegisterRequest();
 		req.setEmail(arg[1]);
 		req.setName(arg[2]);
@@ -90,7 +96,7 @@ public class main {
 			printHelp();
 			return;
 		}
-		ChangePasswordService changePwdSvc = ctx.getBean("changePwdSvc", ChangePasswordService.class);
+		ChangePasswordService changePwdSvc = ctx.getBean(ChangePasswordService.class);
 		try {
 			changePwdSvc.changePassword(arg[1], arg[2], arg[3]);
 			System.out.println("암호를 변경했습니다.");
@@ -127,5 +133,10 @@ public class main {
 		System.out.println("new 이메일 이름 암호 암호확인");
 		System.out.println("change 이메일 현재비번 변경비번");
 		System.out.println();
+	}
+	
+	private static void processVersionCommand() {
+		VersionPrinter versionPrinter = ctx.getBean("versionPrinter", VersionPrinter.class);
+		versionPrinter.print();
 	}
 }
