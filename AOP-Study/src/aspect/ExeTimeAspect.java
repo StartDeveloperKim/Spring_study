@@ -11,7 +11,7 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public class ExeTimeAspect {
 	
-	@Pointcut("execution(public * chapter07..*(..))") // 공통 기능을 적용할 대상을 설정한다.
+	@Pointcut("execution(public * chapter7..*(..))") // 공통 기능을 적용할 대상을 설정한다.
 	private void publicTarget() {
 	}
 	
