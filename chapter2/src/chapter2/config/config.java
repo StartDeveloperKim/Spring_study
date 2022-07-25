@@ -3,7 +3,11 @@ package chapter2.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import chapter2.spring.ChangePasswordService;
 import chapter2.spring.MemberDao;
+import chapter2.spring.MemberListPrinter;
+import chapter2.spring.MemberPrinter;
+import chapter2.spring.MemberRegisterService;
 
 
 @Configuration
@@ -31,4 +35,8 @@ public class config {
 		return new MemberPrinter();
 	}
 	
+	@Bean
+	public MemberListPrinter listPrinter() {
+		return new MemberListPrinter(memberDao(), memberPrinter());
+	}
 }

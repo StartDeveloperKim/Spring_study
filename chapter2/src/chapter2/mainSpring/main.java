@@ -7,15 +7,20 @@ import java.io.InputStreamReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import chapter2.config.DuplicateMemberException;
-import chapter2.config.MemberRegisterService;
-import chapter2.config.RegisterRequest;
 import chapter2.config.config;
+import chapter2.spring.ChangePasswordService;
+import chapter2.spring.DuplicateMemberException;
+import chapter2.spring.MemberListPrinter;
+import chapter2.spring.MemberNotFoundException;
+import chapter2.spring.MemberRegisterService;
+import chapter2.spring.RegisterRequest;
+import chapter2.spring.WrongIdPasswordException;
 
 
 public class main {
 
 	private static ApplicationContext ctx = null;
+	// ApplicationContext 
 	
 	public static void main(String[] args) throws IOException {
 		ctx = new AnnotationConfigApplicationContext(config.class);
@@ -28,18 +33,25 @@ public class main {
 			if(command.equalsIgnoreCase("exit")) {
 				System.out.println("종료합니다.");
 				break;
-			}
-			if(command.equalsIgnoreCase("new ")) {
+			}// 종료 명령어라면 break
+			if(command.startsWith("new")) {
 				processNewCommand(command.split(" "));
 				continue;
-			} else if(command.equalsIgnoreCase("change ")) {
+			}  // new 명령어라면 등록함수로 
+			else if(command.startsWith("change ")) {
 				processChangeCommand(command.split(" "));
+				continue;
+			}
+			else if(command.equals("list")) {
+				processListCommand();
 				continue;
 			}
 			printHelp();
 		}
 	}
 	
+	
+
 	private static void processNewCommand(String[] arg) {
 		if(arg.length != 5) {
 			printHelp();
@@ -72,11 +84,24 @@ public class main {
 			printHelp();
 			return;
 		}
+		ChangePasswordService changePwdSvc = ctx.getBean("changePwdSvc", ChangePasswordService.class);
+		try {
+			changePwdSvc.changePassword(arg[1], arg[2], arg[3]);
+			System.out.println("암호를 변경했습니다.");
+		} catch (MemberNotFoundException e) {
+			System.out.println("존재하지 않는 이메일입니다.");
+		} catch(WrongIdPasswordException e) {
+			System.out.println("이메일과 암호가 일치하지 않습니다.");
+		}
+		
 		
 	}
 	
-
-	
+	private static void processListCommand() {
+		MemberListPrinter listPrinter = ctx.getBean("listPrinter", MemberListPrinter.class);
+		listPrinter.printAll();
+		
+	}
 	
 	private static void printHelp() {
 		System.out.println();
