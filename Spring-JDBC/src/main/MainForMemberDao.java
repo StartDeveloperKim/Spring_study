@@ -1,84 +1,127 @@
 package main;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import config.AppCtx;
 import spring.ChangePasswordService;
-import spring.Member;
-import spring.MemberDao;
+import spring.MemberInfoPrinter;
+import spring.MemberListPrinter;
 import spring.MemberNotFoundException;
+import spring.MemberRegisterService;
+import spring.RegisterRequest;
 import spring.WrongIdPasswordException;
 
 public class MainForMemberDao {
-	private static MemberDao memberDao;
+	private static AnnotationConfigApplicationContext ctx = null;
 	
-	public static void main(String[] args) throws WrongIdPasswordException {
-		AnnotationConfigApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(AppCtx.class);
+	public static void main(String[] args) throws WrongIdPasswordException, IOException {
+		ctx = new AnnotationConfigApplicationContext(AppCtx.class);
+		// 설정파일 불러오기
 		
-		memberDao = ctx.getBean(MemberDao.class);
+		BufferedReader reader =
+				new BufferedReader(new InputStreamReader(System.in));
 		
-		ChangePasswordService cps = 
-				ctx.getBean("changePwdSvc", ChangePasswordService.class);
-		
-		try {
-			cps.changePassword("ktw@naver.com", "0000", "1234");
-			System.out.println("암호를 변경했습니다.");
-		} catch (MemberNotFoundException e) {
-            System.out.println("회원 데이터가 존재하지 않습니다.");
-		} catch (WrongIdPasswordException e) {
-			 System.out.println("암호가 올바르지 않습니다.");
+		while (true) {
+			System.out.println("명렁어를 입력하세요:");
+			String command = reader.readLine();
+			if (command.equalsIgnoreCase("exit")) {
+				System.out.println("종료합니다.");
+				break;
+			}
+			if (command.startsWith("new ")) {
+				processNewCommand(command.split(" "));
+			} else if (command.startsWith("change ")) {
+				processChangeCommand(command.split(" "));
+			} else if (command.equals("list")) {
+				processListCommand();
+			} else if (command.startsWith("info ")) {
+				processInfoCommand(command.split(" "));
+			} else {
+				printHelp();
+			}
 		}
-		
-		selectAll();
-		/*
-		 * selectAll(); updateMember(); insertMember();
-		 */
 		
 		ctx.close();
 
 	}
 
-	private static void selectAll() {
-		System.out.println("----- selectAll");
-		int total = memberDao.count();
-		System.out.println("전체 데이터: " + total);
-		List<Member> members = (List<Member>) memberDao.selectAll();
-		for (Member m : members) {
-			System.out.println(m.getId() + ":" + m.getEmail() + ":" + m.getName());
+	private static void processNewCommand(String[] arg) {
+		if (arg.length != 5) {
+			printHelp();
+			return;
+		}
+		MemberRegisterService regSvc =
+				ctx.getBean("memberRegSvc", MemberRegisterService.class);
+		// memberRegSvc 빈 객체 불러오기
+		RegisterRequest req = new RegisterRequest(); // 멤버 등록을 위한 객체 생성
+		
+		// 객체 변수 삽입
+		req.setEmail(arg[1]);
+		req.setName(arg[2]);
+		req.setPassword(arg[3]);
+		req.setConfirmPassword(arg[4]);
+		
+		// 비밀번호 확인
+		if (!req.isPasswordEqualToConfirmPassword()) {
+			System.out.println("암호와 확인이 일치하지 않습니다.\n");
+			return;
+		}
+		regSvc.regist(req); // 동록
+		System.out.println("등록했습니다.\n");
+	}
+
+	private static void processChangeCommand(String[] arg) {
+		if (arg.length != 4) {
+			printHelp();
+			return;
+		}
+		ChangePasswordService changePwdSvc = 
+				ctx.getBean("changePwdSvc", ChangePasswordService.class);
+		// 빈 객체 불러오기
+		try {
+			changePwdSvc.changePassword(arg[1], arg[2], arg[3]); // 암호변경
+			System.out.println("암호를 변경했습니다.\n");
+		} catch (MemberNotFoundException e) {
+			System.out.println("존재하지 않는 이메일입니다.\n");
+		} catch (WrongIdPasswordException e) {
+			System.out.println("이메일과 암호가 일치하지 않습니다.\n");
 		}
 	}
-	
-	private static void updateMember() throws WrongIdPasswordException {
-		System.out.println("----- updateMember");
-		Member member = memberDao.selectByEmail("ktw@naver.com");
-		String oldPw = member.getPassword();
-		String newPw = Double.toHexString(Math.random());
-		member.changePassword(oldPw, newPw);
 
-		memberDao.update(member);
-		System.out.println("암호 변경: " + oldPw + " > " + newPw);
+	private static void processListCommand() {
+		MemberListPrinter listPrinter = 
+				ctx.getBean("listPrinter", MemberListPrinter.class);
+		listPrinter.printAll();
+	}
+
+	private static void processInfoCommand(String[] arg) {
+		if (arg.length != 2) {
+			printHelp();
+			return;
+		}
+		MemberInfoPrinter infoPrinter = 
+				ctx.getBean("infoPrinter", MemberInfoPrinter.class);
+		infoPrinter.printMemberInfo(arg[1]);
 		
 	}
-	
-	private static DateTimeFormatter formatter = 
-			DateTimeFormatter.ofPattern("MMddHHmmss");
-	
-	private static void insertMember() {
-		System.out.println("----- insertMember");
 
-		String prefix = formatter.format(LocalDateTime.now());
-		Date now = new Date();
-		Member member = new Member(prefix + "@test.com", 
-				prefix, prefix, now);
-		memberDao.insert(member);
-		System.out.println(member.getId() + " 데이터 추가");
+	private static void printHelp() {
+		System.out.println();
+		System.out.println("잘못된 명령입니다. 아래 명령어 사용법을 확인하세요.");
+		System.out.println("명령어 사용법:");
+		System.out.println("new 이메일 이름 암호 암호확인");
+		System.out.println("change 이메일 현재비번 변경비번");
+		System.out.println("info 이메일");
+
+		System.out.println();
+		
 	}
+
+	
 
 
 
