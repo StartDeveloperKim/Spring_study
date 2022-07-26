@@ -1,5 +1,8 @@
 package main;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -7,19 +10,20 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import config.AppCtx;
 import spring.Member;
 import spring.MemberDao;
+import spring.WrongIdPasswordException;
 
 public class MainForMemberDao {
 	private static MemberDao memberDao;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws WrongIdPasswordException {
 		AnnotationConfigApplicationContext ctx = 
 				new AnnotationConfigApplicationContext(AppCtx.class);
 		
 		memberDao = ctx.getBean(MemberDao.class);
 		
 		selectAll();
-		//updateMember();
-		//insertMember();
+		updateMember();
+		insertMember();
 		
 		ctx.close();
 
@@ -35,13 +39,30 @@ public class MainForMemberDao {
 		}
 	}
 	
-	private static void updateMember() {
-		// TODO Auto-generated method stub
+	private static void updateMember() throws WrongIdPasswordException {
+		System.out.println("----- updateMember");
+		Member member = memberDao.selectByEmail("ktw@naver.com");
+		String oldPw = member.getPassword();
+		String newPw = Double.toHexString(Math.random());
+		member.changePassword(oldPw, newPw);
+
+		memberDao.update(member);
+		System.out.println("암호 변경: " + oldPw + " > " + newPw);
 		
 	}
 	
+	private static DateTimeFormatter formatter = 
+			DateTimeFormatter.ofPattern("MMddHHmmss");
+	
 	private static void insertMember() {
-		
+		System.out.println("----- insertMember");
+
+		String prefix = formatter.format(LocalDateTime.now());
+		Date now = new Date();
+		Member member = new Member(prefix + "@test.com", 
+				prefix, prefix, now);
+		memberDao.insert(member);
+		System.out.println(member.getId() + " 데이터 추가");
 	}
 
 
