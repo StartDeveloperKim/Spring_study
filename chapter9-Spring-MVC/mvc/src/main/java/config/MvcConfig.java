@@ -13,10 +13,10 @@ public class MvcConfig implements WebMvcConfigurer{
 	 @Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
-	}
+	} // 기본 ServletHandling
 	 
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		registry.jsp("/WEB-INF/view/", ".jsp");
-	}
+	} // jsp 경로 
 }

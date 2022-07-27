@@ -13,7 +13,7 @@ public class HelloController {
 	public String hello(Model model,
 			@RequestParam(value = "name", required = false) String name) {
 		
-		model.addAttribute("greeting", "안녕하세요, " + name);
+		model.addAttribute("greeting", "안녕하세요, " + name);// map 형태로 저장
 		return "hello";
 	}
 }
