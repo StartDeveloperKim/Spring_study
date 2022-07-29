@@ -7,6 +7,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import member.ChangePasswordService;
 import member.MemberDao;
 import member.MemberRegisterService;
 
@@ -14,6 +15,7 @@ import member.MemberRegisterService;
 @EnableTransactionManagement
 public class DBConfig {
 	
+	// DB연결 설정
 	@Bean(destroyMethod = "close")
 	public DataSource dataSource() {
 		DataSource ds = new DataSource();
@@ -43,6 +45,11 @@ public class DBConfig {
 	@Bean
 	public MemberRegisterService memberRegSvc() {
 		return new MemberRegisterService(memberDao());
+	}
+	
+	@Bean
+	public ChangePasswordService changePasswordService() {
+		return new ChangePasswordService(memberDao());
 	}
 	
 	

@@ -1,3 +1,8 @@
+/*현재 완료된 기능*/
+/*ID별 멤버 조회
+ *  멤버 등록 
+ *  비밀번호 업데이트 */
+
 package member;
 
 import java.sql.Connection;
@@ -18,13 +23,16 @@ public class MemberDao {
 	
 	private String selectByID_sql = "select * from MEMBER2 where ID = ?";
 	private String insert_sql = "insert into MEMBER2 (ID, PASSWORD, NAME, NICKNAME) VALUES (?, ?, ?, ?)";
-	private String update_sql = "update MEMBER set PASSWORD = ? where ID = ?";
+	private String update_sql = "update MEMBER2 set PASSWORD = ? where ID = ?";
 	private String selectAll_sql = "";
 	
 	public MemberDao(DataSource datasource) {
 		this.jdbcTemplate = new JdbcTemplate(datasource);
-	}
+	} // 생성자를 통해 의존주입
 	
+	// 한개 출력하기 : jdbcTemplate.queryForObject(sql문, RowMapper, 가변인자)
+	// 여러개 출력하기 : jdbcTemplate.query(인자1, 인자2, 인자3)
+	// SELECT문은 RowMapper -> mapRow를 이용한다.
 	public Member selectByID(String ID) {
 		List<Member> results = jdbcTemplate.query(selectByID_sql,
 				new RowMapper<Member>() {
@@ -46,6 +54,7 @@ public class MemberDao {
 		return results.isEmpty() ? null:results.get(0);
 	}
 	
+	//INSERT, UPDATE, DELETE 작업은 update문을 이용한다.
 	public void insert(final Member member) {
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			
@@ -64,9 +73,10 @@ public class MemberDao {
 	
 	public void update(Member member) {
 		jdbcTemplate.update(update_sql,
-				member.getPassword(), member.getName());
+				member.getPassword(), member.getId());
 	}
 	
+	// 모든 멤버 조회 --> 코드 작성해야함
 	public Collection<Member> selectAll(){
 		return null;
 	}

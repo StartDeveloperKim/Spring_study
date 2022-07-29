@@ -1,3 +1,5 @@
+/*멤버등록 서비스*/
+
 package member;
 
 import java.time.LocalDateTime;
@@ -16,6 +18,8 @@ public class MemberRegisterService {
 		if(member != null) {
 			throw new DuplicateMemberException("중복된 아이디 입니다." + req.getId());
 		}
+		
+		//그냥 현재시간 받아오기
 		LocalDateTime localDateTime = LocalDateTime.now();
 		Date date = java.sql.Timestamp.valueOf(localDateTime);
 		
