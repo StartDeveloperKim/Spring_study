@@ -13,6 +13,9 @@
 	<h2>회원가입</h2>
 	<p><a href="<c:url value="/register/step1" />">[회원 가입하기]</a>
 	
+	<h2>비밀번호 바꾸기</h2>
+	<p><a href="<c:url value="/register/changeinfo" />">[회원정보 변경]</a>
+	
 	<h2>게시판</h2>
 	<p><a href="<c:url value="/notice/list" />">[게시판]</a>
 	
