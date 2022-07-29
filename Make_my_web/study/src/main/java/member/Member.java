@@ -59,5 +59,9 @@ public class Member {
 		this.nickname = nickname;
 	}
 	
-	
+	public void changePassword(String oldPassword, String newPassword) throws WrongIdPasswordException {
+		if(!password.equals(oldPassword))
+			throw new WrongIdPasswordException();
+		this.password = newPassword;
+	}
 }

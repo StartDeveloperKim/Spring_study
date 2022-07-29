@@ -18,7 +18,7 @@ public class MemberDao {
 	
 	private String selectByID_sql = "select * from MEMBER2 where ID = ?";
 	private String insert_sql = "insert into MEMBER2 (ID, PASSWORD, NAME, NICKNAME) VALUES (?, ?, ?, ?)";
-	private String update_sql = "";
+	private String update_sql = "update MEMBER set PASSWORD = ? where ID = ?";
 	private String selectAll_sql = "";
 	
 	public MemberDao(DataSource datasource) {
@@ -63,7 +63,8 @@ public class MemberDao {
 	}
 	
 	public void update(Member member) {
-		
+		jdbcTemplate.update(update_sql,
+				member.getPassword(), member.getName());
 	}
 	
 	public Collection<Member> selectAll(){
