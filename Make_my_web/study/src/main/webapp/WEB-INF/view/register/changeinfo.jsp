@@ -5,36 +5,27 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원정보확인</title>
+<title>비밀번호변경</title>
 </head>
 <body>
-	<h2>회원 정보 입력</h2>
+	<h2>비밀번호변경</h2>
 	<form:form action="changeend" modelAttribute="changeRequest">
+	
 	<p>
-		<label>아이디:<br>
-		<form:input path="id"/>
-		</label>
-	</p>
-	<p>
-		<label>비밀번호:<br>
+		<label>현재 비밀번호:<br>
 		<form:password path="oldPwd"/>
 		</label>
 	</p>
 	<p>
 		<label>새 비밀번호:<br>
-		<form:password path="newPwd"/>
+		<form:password path="newPwd" />
 		</label>
 	</p>
 	<p>
 		<label>비밀번호 확인:<br>
-		<form:password path="confirmPassword"/>
+		<form:password path="confirmapassword"/>
 		</label>
 	</p>
-	<%-- <p>
-		<label>닉네임:<br>
-		<form:input path="nickname"/>
-		</label>
-	</p> --%>
 	<input type="submit" value="변경하기">
 	
 	</form:form>

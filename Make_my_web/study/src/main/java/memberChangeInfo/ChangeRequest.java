@@ -1,22 +1,12 @@
 /*비밀변호 변경 요청 DTO(Data Transfer Object)*/
 
-package member;
+package memberChangeInfo;
 
 public class ChangeRequest {
 	
-	private String id;
 	private String oldPwd;
 	private String newPwd;
-	private String confirmPassword;
-	//private String nickname;
-	
-	public String getId() {
-		return id;
-	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
+	private String confirmapassword;
 	
 	public String getOldPwd() {
 		return oldPwd;
@@ -34,13 +24,13 @@ public class ChangeRequest {
 		this.newPwd = newPwd;
 	}
 	
-	public String getConfirmPassword() {
-		return confirmPassword;
+	public String getConfirmapassword() {
+		return confirmapassword;
 	}
 	
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
+	public void setConfirmapassword(String confirmapassword) {
+		this.confirmapassword = confirmapassword;
 	}
 	
-	
+
 }

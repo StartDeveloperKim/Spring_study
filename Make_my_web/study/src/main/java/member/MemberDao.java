@@ -23,7 +23,7 @@ public class MemberDao {
 	
 	private String selectByID_sql = "select * from MEMBER2 where ID = ?";
 	private String insert_sql = "insert into MEMBER2 (ID, PASSWORD, NAME, NICKNAME) VALUES (?, ?, ?, ?)";
-	private String update_sql = "update MEMBER2 set PASSWORD = ? where ID = ?";
+	private String update_sql = "update MEMBER2 set PASSWORD = ?, NAME = ?, NICKNAME = ? where ID = ?";
 	private String selectAll_sql = "";
 	
 	public MemberDao(DataSource datasource) {
@@ -73,7 +73,7 @@ public class MemberDao {
 	
 	public void update(Member member) {
 		jdbcTemplate.update(update_sql,
-				member.getPassword(), member.getId());
+				member.getPassword(), member.getName(), member.getNickname(), member.getId());
 	}
 	
 	// 모든 멤버 조회 --> 코드 작성해야함

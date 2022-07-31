@@ -1,4 +1,4 @@
-package member;
+package memberRegister;
 
 // 동록할 때 사용되는 객체
 public class RegisterRequest {

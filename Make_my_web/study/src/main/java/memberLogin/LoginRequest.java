@@ -1,4 +1,4 @@
-package member;
+package memberLogin;
 
 public class LoginRequest {
 	

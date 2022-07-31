@@ -1,9 +1,13 @@
 /*멤버등록 서비스*/
 
-package member;
+package memberRegister;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+
+import member.DuplicateMemberException;
+import member.Member;
+import member.MemberDao;
 
 public class MemberRegisterService {
 	

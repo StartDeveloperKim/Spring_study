@@ -1,5 +1,7 @@
 package controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,13 +9,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import member.ChangePasswordService;
-import member.ChangeRequest;
 import member.DuplicateMemberException;
-import member.MemberRegisterService;
+import member.Member;
+import member.MemberDao;
+import member.MemberNotFoundExcepttion;
+import member.NotEqualConfirmPwd;
 import member.NotExistMember;
-import member.RegisterRequest;
 import member.WrongIdPasswordException;
+import memberChangeInfo.ChangePasswordService;
+import memberChangeInfo.ChangeRequest;
+import memberLogin.AuthInfo;
+import memberRegister.MemberRegisterService;
+import memberRegister.RegisterRequest;
 
 @Controller
 public class MemberController {
@@ -67,24 +74,23 @@ public class MemberController {
 	}
 	
 	/*-------------------------------------------------------------------------------*/
+	
+	
 	/*----------------------비밀번호 변경------------------------------------------------*/
 	
 	// 비밀번호 또는 닉네임 변경 요청시 만들어지는 실행된다.
 	@GetMapping("/register/changeinfo")
-	public String handleChangeInfo(Model model) {
-		model.addAttribute("changeRequest", new ChangeRequest());
-		// Model 객체에 changeRequest 라는 key값으로 ChanngeRequest
+	public String handleChangeInfo(ChangeRequest chaReq) {
 		return "register/changeinfo";
 	}
 	
 	@PostMapping("/register/changeend")
-	public String handleChangeEnd(ChangeRequest chaReq) {
+	public String handleChangeEnd(ChangeRequest chaReq, HttpSession session) throws MemberNotFoundExcepttion, NotEqualConfirmPwd {
 		try {
-			changePasswordService.changePassword(chaReq);
+			AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+			
+			changePasswordService.changePassword(authInfo.getId(), chaReq.getOldPwd(), chaReq.getNewPwd(), chaReq.getConfirmapassword());
 			return "register/changeend";
-		} catch (NotExistMember e) {
-			// 해당 멤버가 존재하지 않을 시 --> 오류 메시지로 바꿀 것
-			return "home";
 		} catch (WrongIdPasswordException e) {
 			// 틀린 ID와 Password 일때 --> 오류 메시지로 바꿀 것
 			return "/register/changeinfo";

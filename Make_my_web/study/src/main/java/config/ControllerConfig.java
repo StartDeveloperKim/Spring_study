@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import controller.LoginController;
 import controller.LogoutController;
 import controller.MemberController;
-import member.AuthService;
-import member.ChangePasswordService;
-import member.MemberRegisterService;
+import memberChangeInfo.ChangePasswordService;
+import memberLogin.AuthService;
+import memberRegister.MemberRegisterService;
 
 @Configuration
 public class ControllerConfig {

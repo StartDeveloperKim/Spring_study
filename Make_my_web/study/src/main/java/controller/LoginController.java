@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import member.AuthInfo;
-import member.AuthService;
-import member.LoginRequest;
 import member.WrongIdPasswordException;
+import memberLogin.AuthInfo;
+import memberLogin.AuthService;
+import memberLogin.LoginRequest;
 
 @Controller
 @RequestMapping("/login")

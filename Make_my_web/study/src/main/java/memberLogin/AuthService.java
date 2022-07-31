@@ -1,4 +1,8 @@
-package member;
+package memberLogin;
+
+import member.Member;
+import member.MemberDao;
+import member.WrongIdPasswordException;
 
 public class AuthService {
 	
@@ -17,6 +21,6 @@ public class AuthService {
 			throw new WrongIdPasswordException();
 		}
 		
-		return new AuthInfo(member.getId(), member.getNickname());
+		return new AuthInfo(member.getId(), member.getPassword(), member.getName(), member.getNickname());
 	}
 }
