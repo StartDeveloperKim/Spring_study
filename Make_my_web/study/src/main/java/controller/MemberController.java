@@ -1,4 +1,4 @@
-package member;
+package controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -6,6 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import member.ChangePasswordService;
+import member.ChangeRequest;
+import member.DuplicateMemberException;
+import member.MemberRegisterService;
+import member.NotExistMember;
+import member.RegisterRequest;
+import member.WrongIdPasswordException;
 
 @Controller
 public class MemberController {
