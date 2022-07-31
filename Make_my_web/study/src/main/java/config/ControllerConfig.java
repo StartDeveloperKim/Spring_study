@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import controller.LoginController;
 import controller.LogoutController;
 import controller.MemberController;
+import memberChangeInfo.ChangeInfoService;
 import memberChangeInfo.ChangePasswordService;
 import memberLogin.AuthService;
 import memberRegister.MemberRegisterService;
@@ -23,11 +24,15 @@ public class ControllerConfig {
 	@Autowired
 	private AuthService authService;
 	
+	@Autowired
+	private ChangeInfoService changeInfoService;
+	
 	@Bean
 	public MemberController memberController() {
 		MemberController controller = new MemberController();
 		controller.setMemberRegisterService(memberRegSvc);
 		controller.setChangePasswordService(changePasswordService);
+		controller.setChangeInfoService(changeInfoService);
 		return controller;
 	}
 	

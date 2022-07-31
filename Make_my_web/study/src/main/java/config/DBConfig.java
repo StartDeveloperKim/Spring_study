@@ -8,6 +8,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import member.MemberDao;
+import memberChangeInfo.ChangeInfoService;
 import memberChangeInfo.ChangePasswordService;
 import memberLogin.AuthService;
 import memberRegister.MemberRegisterService;
@@ -56,6 +57,11 @@ public class DBConfig {
 	@Bean
 	public AuthService authService() {
 		return new AuthService(memberDao());
+	}
+	
+	@Bean
+	public ChangeInfoService changeInfoService() {
+		return new ChangeInfoService(memberDao());
 	}
 	
 	

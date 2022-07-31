@@ -16,11 +16,14 @@ import member.MemberNotFoundExcepttion;
 import member.NotEqualConfirmPwd;
 import member.NotExistMember;
 import member.WrongIdPasswordException;
+import memberChangeInfo.ChangeInfoService;
 import memberChangeInfo.ChangePasswordService;
 import memberChangeInfo.ChangeRequest;
+import memberChangeInfo.ChangeRequestInfo;
 import memberLogin.AuthInfo;
 import memberRegister.MemberRegisterService;
 import memberRegister.RegisterRequest;
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 public class MemberController {
@@ -28,6 +31,7 @@ public class MemberController {
 	// 멤버등록, 비밀번호 변경 클래스 변수
 	private MemberRegisterService memberRegisterService;
 	private ChangePasswordService changePasswordService;
+	private ChangeInfoService changeInfoService;
 	
 	// 두 멤버 변수 모두 setter 함수를 통해 의존 주입
 	public void setMemberRegisterService(MemberRegisterService memberRegisterService) {
@@ -36,6 +40,10 @@ public class MemberController {
 
 	public void setChangePasswordService(ChangePasswordService changePasswordService) {
 		this.changePasswordService = changePasswordService;
+	}
+	
+	public void setChangeInfoService(ChangeInfoService changeInfoService) {
+		this.changeInfoService = changeInfoService;
 	}
 	
 	/*----------------------회원 등록------------------------------*/
@@ -79,9 +87,9 @@ public class MemberController {
 	/*----------------------비밀번호 변경------------------------------------------------*/
 	
 	// 비밀번호 또는 닉네임 변경 요청시 만들어지는 실행된다.
-	@GetMapping("/register/changeinfo")
-	public String handleChangeInfo(ChangeRequest chaReq) {
-		return "register/changeinfo";
+	@GetMapping("/register/changePwd")
+	public String handleChangePwd(ChangeRequest chaReq) {
+		return "register/changePwd";
 	}
 	
 	@PostMapping("/register/changeend")
@@ -93,11 +101,27 @@ public class MemberController {
 			return "register/changeend";
 		} catch (WrongIdPasswordException e) {
 			// 틀린 ID와 Password 일때 --> 오류 메시지로 바꿀 것
-			return "/register/changeinfo";
+			return "/register/changePwd";
 		}
 		
 	}
 	
 	/*-------------------------------------------------------------------------------*/
+	
+	@GetMapping("register/changeinfo")
+	public String handleChangeInfo(ChangeRequestInfo chaReqInfo) {
+		return "register/changeinfo";
+	}
+	
+	@PostMapping("register/changeinfoend")
+	public String handleChangeInfoEnd(ChangeRequestInfo chaReqInfo, HttpSession session) {
+		try {
+			AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+			changeInfoService.ChangeMemberInfo(authInfo.getId(), chaReqInfo.getName(), chaReqInfo.getNickname());
+			return "register/changeend";
+		} catch (MemberNotFoundExcepttion e) {
+			return "/register/changeinfo";
+		}
+	}
 	
 }

@@ -20,7 +20,10 @@
 	
 	<c:if test="${!empty authInfo }">
 		<p>${authInfo.nickname }님, 환영합니다.</p>
-		<h2>비밀번호 바꾸기</h2>
+		<h2>비밀번호 변경</h2>
+		<p><a href="<c:url value="/register/changePwd" />">[비밀번호 변경]</a>
+		
+		<h2>회원정보 변경</h2>
 		<p><a href="<c:url value="/register/changeinfo" />">[회원정보 변경]</a>
 		
 		<h2>로그아웃</h2>
