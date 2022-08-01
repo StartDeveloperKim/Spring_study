@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -11,10 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import member.DuplicateMemberException;
 import member.Member;
-import member.MemberDao;
+import member.MemberLookupService;
 import member.MemberNotFoundExcepttion;
 import member.NotEqualConfirmPwd;
-import member.NotExistMember;
 import member.WrongIdPasswordException;
 import memberChangeInfo.ChangeInfoService;
 import memberChangeInfo.ChangePasswordService;
@@ -23,7 +24,6 @@ import memberChangeInfo.ChangeRequestInfo;
 import memberLogin.AuthInfo;
 import memberRegister.MemberRegisterService;
 import memberRegister.RegisterRequest;
-import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 public class MemberController {
@@ -32,6 +32,7 @@ public class MemberController {
 	private MemberRegisterService memberRegisterService;
 	private ChangePasswordService changePasswordService;
 	private ChangeInfoService changeInfoService;
+	private MemberLookupService memberLookupService;
 	
 	// 두 멤버 변수 모두 setter 함수를 통해 의존 주입
 	public void setMemberRegisterService(MemberRegisterService memberRegisterService) {
@@ -44,6 +45,10 @@ public class MemberController {
 	
 	public void setChangeInfoService(ChangeInfoService changeInfoService) {
 		this.changeInfoService = changeInfoService;
+	}
+	
+	public void setMemberLookupService(MemberLookupService memberLookupService) {
+		this.memberLookupService = memberLookupService;
 	}
 	
 	/*----------------------회원 등록------------------------------*/
@@ -106,7 +111,7 @@ public class MemberController {
 		
 	}
 	
-	/*-------------------------------------------------------------------------------*/
+	/*-----------------------------회원 정보 변경-----------------------------------------*/
 	
 	@GetMapping("register/changeinfo")
 	public String handleChangeInfo(ChangeRequestInfo chaReqInfo) {
@@ -123,5 +128,14 @@ public class MemberController {
 			return "/register/changeinfo";
 		}
 	}
+	/*-----------------------------회원 목록 조회--------------------------------------*/
 	
+	@GetMapping("/lookup")
+	public String handleLookupMember(Model model) {
+		List<Member> members = memberLookupService.lookupService();
+		
+		model.addAttribute("members", members);
+		
+		return "lookup/members";
+	}
 }

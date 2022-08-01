@@ -24,7 +24,7 @@ public class MemberDao {
 	private String selectByID_sql = "select * from MEMBER2 where ID = ?";
 	private String insert_sql = "insert into MEMBER2 (ID, PASSWORD, NAME, NICKNAME) VALUES (?, ?, ?, ?)";
 	private String update_sql = "update MEMBER2 set PASSWORD = ?, NAME = ?, NICKNAME = ? where ID = ?";
-	private String selectAll_sql = "";
+	private String selectAll_sql = "select * from MEMBER2";
 	
 	public MemberDao(DataSource datasource) {
 		this.jdbcTemplate = new JdbcTemplate(datasource);
@@ -76,8 +76,23 @@ public class MemberDao {
 				member.getPassword(), member.getName(), member.getNickname(), member.getId());
 	}
 	
-	// 모든 멤버 조회 --> 코드 작성해야함
+	// 모든 멤버 조회
 	public Collection<Member> selectAll(){
-		return null;
+		List<Member> results = jdbcTemplate.query(selectAll_sql, 
+				new RowMapper<Member>() {
+			@Override
+			public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Member member = new Member(
+						rs.getString("PASSWORD"),
+						rs.getString("NAME"),
+						rs.getDate("REGDATE"),
+						rs.getString("NICKNAME"));
+				member.setId(rs.getString("ID"));
+				
+				return member;
+			}
+		});
+		
+		return results;
 	}
 }

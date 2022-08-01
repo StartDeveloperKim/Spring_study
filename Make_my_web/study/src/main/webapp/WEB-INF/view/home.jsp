@@ -32,6 +32,9 @@
 		<h2>게시판</h2>
 		<p><a href="<c:url value="/notice/list" />">[게시판]</a>
 		
+		<h2>회원조회</h2>
+		<p><a href="<c:url value="/lookup" />">[회원조회]</a>
+		
 	</c:if>
 	
 	
