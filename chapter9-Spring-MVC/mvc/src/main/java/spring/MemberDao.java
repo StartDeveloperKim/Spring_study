@@ -4,17 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
-
-import javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 
 public class MemberDao {
 	
@@ -26,6 +23,7 @@ public class MemberDao {
 	private String count_sql = "select count(*) from MEMBER";
 	private String update_sql = "update MEMBER set NAME = ?, PASSWORD = ? where EMAIL = ?";
 	private String insert_sql = "insert into MEMBER (EMAIL, PASSWORD, NAME) VALUES (?, ?, ?)";
+	private String selectByid_sql = "select * from MEMBER where ID between ? and ? order by ID desc";
 	
 	public MemberDao(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -96,5 +94,25 @@ public class MemberDao {
 		Integer count = jdbcTemplate.queryForObject(
 				count_sql, Integer.class);
 		return count;
+	}
+	
+	public List<Member> selectByid(Long from, Long to){
+		
+		List<Member> results = jdbcTemplate.query(selectByid_sql,
+				new RowMapper<Member>() {
+			@Override
+			public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				Member member = new Member(
+						rs.getString("EMAIL"),
+						rs.getString("PASSWORD"),
+						rs.getString("NAME"),
+						rs.getDate("REGDATE"));
+				member.setId(rs.getLong("ID"));
+				return member;
+			}
+		}, from, to);
+		
+		return results;
 	}
 }
