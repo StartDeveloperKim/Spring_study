@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,7 @@
 <title>변경완료</title>
 </head>
 <body>
-	<p>비밀번호 및 닉세임 변경을 완료하였습니다.</p>
-	<p><a href="<c:url value='/home'/>">[메인으로 돌아가기]</a></p>
+	<p><spring:message code="change.pwd.done"/></p>
+	<p><a href="<c:url value='/home'/>"><spring:message code="go.main"/></a></p>
 </body>
 </html>

@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,16 +11,16 @@
 <title>회원정보변경</title>
 </head>
 <body>
-	<h2>회원정보변경</h2>
+	<h2><spring:message code="change.info.title"/></h2>
 	<form:form action="changeinfoend" modelAttribute="changeRequestInfo">
 	
 	<p>
-		<label>이름:<br>
+		<label><spring:message code="name"/>:<br>
 		<form:input path="name"/>
 		</label>
 	</p>
 	<p>
-		<label>닉네임:<br>
+		<label><spring:message code="nickname"/>:<br>
 		<form:input path="nickname" />
 		</label>
 	</p>

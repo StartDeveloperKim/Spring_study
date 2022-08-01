@@ -4,6 +4,8 @@
 
 package memberChangeInfo;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import member.Member;
 import member.MemberDao;
 import member.MemberNotFoundExcepttion;
@@ -13,11 +15,13 @@ import member.WrongIdPasswordException;
 public class ChangePasswordService {
 	
 	private MemberDao memberDao;
-
+	
+	
 	public ChangePasswordService(MemberDao memberDao) {
 		this.memberDao = memberDao;
 	} // 생성자를 통해 memberDao 의존주입 스프링은 싱글톤이라 하나의 종류의 객체가 생성
 	
+	@Transactional
 	public void changePassword(String id, String oldPwd, String newPwd, String confirmPwd) throws WrongIdPasswordException, MemberNotFoundExcepttion, NotEqualConfirmPwd {
 		Member member = memberDao.selectByID(id);
 		if(member==null)
