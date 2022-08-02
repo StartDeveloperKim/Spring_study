@@ -30,26 +30,27 @@ public class MemberDao {
 		this.jdbcTemplate = new JdbcTemplate(datasource);
 	} // 생성자를 통해 의존주입
 	
+	/*중복되는 코드 정리*/
+	private RowMapper<Member> memRowMapper = new RowMapper<Member>() {
+		@Override
+		public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+			// ResultSet에 값을 받아온다 rowNum만큼
+			Member member = new Member(
+					rs.getString("PASSWORD"),
+					rs.getString("NAME"),
+					rs.getDate("REGDATE"),
+					rs.getString("NICKNAME"));
+			member.setId(rs.getString("ID"));
+			
+			return member;
+		}
+	};
+	
 	// 한개 출력하기 : jdbcTemplate.queryForObject(sql문, RowMapper, 가변인자)
 	// 여러개 출력하기 : jdbcTemplate.query(인자1, 인자2, 인자3)
 	// SELECT문은 RowMapper -> mapRow를 이용한다.
 	public Member selectByID(String ID) {
-		List<Member> results = jdbcTemplate.query(selectByID_sql,
-				new RowMapper<Member>() {
-			
-			@Override
-			public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
-				// ResultSet에 값을 받아온다 rowNum만큼
-				Member member = new Member(
-						rs.getString("PASSWORD"),
-						rs.getString("NAME"),
-						rs.getDate("REGDATE"),
-						rs.getString("NICKNAME"));
-				member.setId(rs.getString("ID"));
-				
-				return member;
-			}
-		}, ID);
+		List<Member> results = jdbcTemplate.query(selectByID_sql, memRowMapper, ID);
 		
 		return results.isEmpty() ? null:results.get(0);
 	}
@@ -78,20 +79,7 @@ public class MemberDao {
 	
 	// 모든 멤버 조회
 	public Collection<Member> selectAll(){
-		List<Member> results = jdbcTemplate.query(selectAll_sql, 
-				new RowMapper<Member>() {
-			@Override
-			public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Member member = new Member(
-						rs.getString("PASSWORD"),
-						rs.getString("NAME"),
-						rs.getDate("REGDATE"),
-						rs.getString("NICKNAME"));
-				member.setId(rs.getString("ID"));
-				
-				return member;
-			}
-		});
+		List<Member> results = jdbcTemplate.query(selectAll_sql, memRowMapper);
 		
 		return results;
 	}
