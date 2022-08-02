@@ -19,6 +19,7 @@ public class NoticeDao {
 	private String selectAll_sql = "select * from NOTICE";
 	private String selectById_sql = "select * from NOTICE WHERE ID = ?";
 	private String insert_sql = "insert into NOTICE (TITLE, CONTENT, WRITER_ID) values (?, ?, ?)";
+	private String update_sql = "update NOTICE set TITLE = ?, CONTENT = ? WHERE ID = ?";
 	
 	public NoticeDao(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -66,5 +67,9 @@ public class NoticeDao {
 				return pstmt;
 			}
 		});
+	}
+	
+	public void update(final Notice notice) {
+		jdbcTemplate.update(update_sql, notice.getTitle(), notice.getContent(), notice.getId());
 	}
 }

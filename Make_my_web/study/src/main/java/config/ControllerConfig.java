@@ -15,6 +15,7 @@ import memberLogin.AuthService;
 import memberRegister.MemberRegisterService;
 import notice.NoticeLookupService;
 import notice.NoticeRegisterService;
+import notice.NoticeUpdateService;
 
 @Configuration
 public class ControllerConfig {
@@ -39,6 +40,9 @@ public class ControllerConfig {
 	
 	@Autowired
 	private NoticeRegisterService noticeRegisterService;
+	
+	@Autowired
+	private NoticeUpdateService noticeUpdateService;
 	
 	@Bean
 	public MemberController memberController() {
@@ -67,6 +71,7 @@ public class ControllerConfig {
 		NoticeController controller = new NoticeController();
 		controller.setNoticeLookupService(noticeLookupService);
 		controller.setNoticeRegisterService(noticeRegisterService);
+		controller.setNoticeUpdateService(noticeUpdateService);
 		return controller;
 	}
 }

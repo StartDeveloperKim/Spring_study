@@ -23,6 +23,9 @@
 			<td>${notice.hit }</td>
 		</tr>
 	</table>
+	<c:if test="${notice.writer_id==authInfo.nickname }">
+		<a href="<c:url value='/notice/update?id=${notice.id}' />"><input type="submit" value="수정" /></a>
+	</c:if>
 	<a href="<c:url value='/notice/list' />">[목록]</a>
 </body>
 </html>
