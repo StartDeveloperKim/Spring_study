@@ -1,5 +1,7 @@
 package notice;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -7,6 +9,7 @@ import java.util.List;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
 public class NoticeDao {
@@ -15,6 +18,7 @@ public class NoticeDao {
 	
 	private String selectAll_sql = "select * from NOTICE";
 	private String selectById_sql = "select * from NOTICE WHERE ID = ?";
+	private String insert_sql = "insert into NOTICE (TITLE, CONTENT, WRITER_ID) values (?, ?, ?)";
 	
 	public NoticeDao(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -26,10 +30,10 @@ public class NoticeDao {
 			Notice notice = new Notice(
 					rs.getString("TITLE"),
 					rs.getString("CONTENT"),
-					rs.getDate("REGDATE"),
-					rs.getString("WRITER_ID"),
-					rs.getInt("HIT"));
+					rs.getString("WRITER_ID"));
 			notice.setId(rs.getInt("ID"));
+			notice.setRegdate(rs.getDate("REGDATE"));
+			notice.setHit(rs.getInt("HIT"));
 			
 			return notice;
 		}
@@ -46,5 +50,21 @@ public class NoticeDao {
 		List<Notice> results = jdbcTemplate.query(selectAll_sql, noticeRowMapper);
 		
 		return results;
+	}
+	
+	public void insert(final Notice notice) {
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				
+				PreparedStatement pstmt = con.prepareStatement(insert_sql);
+				
+				pstmt.setString(1, notice.getTitle());
+				pstmt.setString(2, notice.getContent());
+				pstmt.setString(3, notice.getWriter_id());
+				return pstmt;
+			}
+		});
 	}
 }

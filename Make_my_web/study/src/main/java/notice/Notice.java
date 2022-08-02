@@ -13,12 +13,10 @@ public class Notice {
 	private String writer_id;
 	private int hit;
 	
-	public Notice(String title, String content, Date regdate, String writer_id, int hit) {
+	public Notice(String title, String content, String writer_id) {
 		this.title = title;
 		this.content = content;
-		this.regdate = regdate;
 		this.writer_id = writer_id;
-		this.hit = hit;
 	}
 
 	public int getId() {

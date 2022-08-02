@@ -15,6 +15,7 @@ import memberLogin.AuthService;
 import memberRegister.MemberRegisterService;
 import notice.NoticeDao;
 import notice.NoticeLookupService;
+import notice.NoticeRegisterService;
 
 @Configuration
 @EnableTransactionManagement
@@ -82,5 +83,8 @@ public class DBConfig {
 		return new NoticeLookupService(noticeDao());
 	}
 	
-	
+	@Bean
+	public NoticeRegisterService noticeRegisterService() {
+		return new NoticeRegisterService(noticeDao());
+	}
 }

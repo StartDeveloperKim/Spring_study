@@ -14,7 +14,7 @@
 	
 	<table>
 		<tr>
-			<th>아이디</th><th>제목</th><th>닉네임</th>
+			<th>번호</th><th>제목</th><th>닉네임</th>
 			<th>등록일</th><th>조회수</th>
 		</tr>
 		<c:forEach var="notice" items="${notices}">
@@ -27,6 +27,8 @@
 		</tr>
 		</c:forEach>
 	</table>
+	
+	<a href="<c:url value='/notice/insert' />"><input type="submit" value="글 추가"></a>
 	
 	<a href="<c:url value='/home' />">
 			[home으로 돌아가기]
