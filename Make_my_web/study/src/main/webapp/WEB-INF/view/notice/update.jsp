@@ -16,11 +16,11 @@
 		<form:form action="updateend?id=${id}" modelAttribute="insertRequest">
 			<p>제목</p>
 			<p>
-				<form:input path="title"/>
+				<form:input path="title" value="${notice.title }"/>
 			</p>
 			<p>글내용</p>
 			<p>
-				<form:input path="content"/>
+				<form:input path="content" value="${notice.content }"/>
 			</p>
 			<input type="submit" value="수정하기">
 		</form:form>

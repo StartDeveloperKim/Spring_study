@@ -83,8 +83,10 @@ public class NoticeController {
 
 	@GetMapping("/notice/update")
 	public String handleupdate(@RequestParam(value="id") int id,Model model) {
+		Notice notice = noticeLookupService.detaillookup(id);
 		model.addAttribute("insertRequest", new NoticeInsertRequest());
 		model.addAttribute("id", id);
+		model.addAttribute("notice", notice);
 		return "notice/update";
 	}
 
