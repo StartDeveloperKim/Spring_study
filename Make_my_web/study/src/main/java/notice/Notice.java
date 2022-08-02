@@ -12,8 +12,15 @@ public class Notice {
 	private Date regdate;
 	private String writer_id;
 	private int hit;
-	private String phone_num;
 	
+	public Notice(String title, String content, Date regdate, String writer_id, int hit) {
+		this.title = title;
+		this.content = content;
+		this.regdate = regdate;
+		this.writer_id = writer_id;
+		this.hit = hit;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -60,14 +67,6 @@ public class Notice {
 	
 	public void setHit(int hit) {
 		this.hit = hit;
-	}
-	
-	public String getPhone_num() {
-		return phone_num;
-	}
-	
-	public void setPhone_num(String phone_num) {
-		this.phone_num = phone_num;
 	}
 	
 

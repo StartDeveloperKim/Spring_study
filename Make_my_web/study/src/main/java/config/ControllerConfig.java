@@ -7,11 +7,13 @@ import org.springframework.context.annotation.Configuration;
 import controller.LoginController;
 import controller.LogoutController;
 import controller.MemberController;
+import controller.NoticeController;
 import member.MemberLookupService;
 import memberChangeInfo.ChangeInfoService;
 import memberChangeInfo.ChangePasswordService;
 import memberLogin.AuthService;
 import memberRegister.MemberRegisterService;
+import notice.NoticeLookupService;
 
 @Configuration
 public class ControllerConfig {
@@ -30,6 +32,9 @@ public class ControllerConfig {
 	
 	@Autowired
 	private MemberLookupService memberLookupService;
+	
+	@Autowired
+	private NoticeLookupService noticeLookupService;
 	
 	@Bean
 	public MemberController memberController() {
@@ -51,5 +56,12 @@ public class ControllerConfig {
 	@Bean
 	public LogoutController logoutController() {
 		return new LogoutController();
+	}
+	
+	@Bean
+	public NoticeController noticeController() {
+		NoticeController controller = new NoticeController();
+		controller.setNoticeLookupService(noticeLookupService);
+		return controller;
 	}
 }

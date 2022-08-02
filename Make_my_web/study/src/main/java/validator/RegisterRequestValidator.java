@@ -1,11 +1,13 @@
 package validator;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import memberRegister.RegisterRequest;
 
+@Controller
 public class RegisterRequestValidator implements Validator{
 	
 	@Override

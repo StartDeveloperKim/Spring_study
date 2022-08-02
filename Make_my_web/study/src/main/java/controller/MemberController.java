@@ -85,6 +85,7 @@ public class MemberController {
 			memberRegisterService.regist(regReq);
 			return "register/step3";
 		} catch (DuplicateMemberException e) {
+			errors.rejectValue("id", "duplicate.id");
 			return "register/step2";
 			/*추가해야할 기능*/
 			// 중복된 아이디를 step2.jsp에서 확일할 수 있게 바꾸기

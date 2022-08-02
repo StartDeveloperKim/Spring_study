@@ -13,6 +13,8 @@ import memberChangeInfo.ChangeInfoService;
 import memberChangeInfo.ChangePasswordService;
 import memberLogin.AuthService;
 import memberRegister.MemberRegisterService;
+import notice.NoticeDao;
+import notice.NoticeLookupService;
 
 @Configuration
 @EnableTransactionManagement
@@ -46,6 +48,11 @@ public class DBConfig {
 	}
 	
 	@Bean
+	public NoticeDao noticeDao() {
+		return new NoticeDao(dataSource());
+	}
+	
+	@Bean
 	public MemberRegisterService memberRegSvc() {
 		return new MemberRegisterService(memberDao());
 	}
@@ -68,6 +75,11 @@ public class DBConfig {
 	@Bean
 	public MemberLookupService memberLookupService() {
 		return new MemberLookupService(memberDao());
+	}
+	
+	@Bean
+	public NoticeLookupService noticeLookupService() {
+		return new NoticeLookupService(noticeDao());
 	}
 	
 	
