@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="197a6a84-dd39-4174-9461-c112be09d8b5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Make_my_web/study/target/m2e-wtp/web-resources/META-INF/maven/com.my.web/study/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Make_my_web/study/target/m2e-wtp/web-resources/META-INF/maven/com.my.web/study/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvc/.classpath" beforeDir="false" afterPath="$PROJECT_DIR$/mvc/.classpath" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvc/.project" beforeDir="false" afterPath="$PROJECT_DIR$/mvc/.project" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvc/.settings/org.eclipse.core.resources.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/mvc/.settings/org.eclipse.core.resources.prefs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvc/target/m2e-wtp/web-resources/META-INF/maven/com.ch9.study/mvc/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/mvc/target/m2e-wtp/web-resources/META-INF/maven/com.ch9.study/mvc/pom.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="TaskManager">
+    <servers />
+  </component>
+</project>
