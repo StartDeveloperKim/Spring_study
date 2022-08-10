@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.7.2'
 	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
 	id 'java'
+	id 'war'
 }
 
 group = 'com.spring'
@@ -13,7 +14,7 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	/*implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'*/
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.projectlombok:lombok:1.18.24'
@@ -21,11 +22,20 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.mybatis/mybatis-spring
 	implementation group: 'org.mybatis', name: 'mybatis-spring', version: '2.0.7'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2
-	runtimeOnly 'com.h2database:h2'
+	/*runtimeOnly 'com.h2database:h2'
 	// https://mvnrepository.com/artifact/com.zaxxer/HikariCP
 	implementation group: 'com.zaxxer', name: 'HikariCP', version: '5.0.1'
-	// https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8
+	// https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8*/
 	implementation group: 'com.oracle.database.jdbc', name: 'ojdbc8', version: '21.6.0.0.1'
+	// https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4
+	implementation group: 'org.bgee.log4jdbc-log4j2', name: 'log4jdbc-log4j2-jdbc4', version: '1.16'
+	/*// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-tomcat
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '2.7.2'*/
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	// https://mvnrepository.com/artifact/javax.servlet/jstl
+	implementation group: 'javax.servlet', name: 'jstl'
+
+
 
 
 

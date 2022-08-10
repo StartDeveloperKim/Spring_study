@@ -1,6 +1,7 @@
 package com.spring.study.repository;
 
 import com.spring.study.domain.BoardVO;
+import com.spring.study.domain.Critertia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -24,6 +25,13 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
     private final String read_sql = "select * from tbl_board where bno = ?";
     private final String delete_sql = "delete from tbl_board where bno = ?";
     private final String update_sql = "update tbl_board set title = ?, content = ?, writer = ?, updateDate = sysdate, where bno = ?";
+    private final String getListWithPaging_sql = "SELECT BNO, TITLE, CONTENT " +
+            "FROM( " +
+            "    select /*+ INDEX_DESC(tbl_board pk_board)*/ " +
+            "        rownum rn, bno, title, content " +
+            "    from tbl_board " +
+            "    where rn <= 20) " +
+            "WHERE rn > 10";
 
     public JdbcTemplateBoardRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -32,6 +40,11 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
     @Override
     public List<BoardVO> getList() {
         return null;
+    }
+
+    @Override
+    public List<BoardVO> getListWithPaging(Critertia cri) {
+        return jdbcTemplate.query(getListWithPaging_sql, boardVORowMapper);
     }
 
     @Override

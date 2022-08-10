@@ -1,6 +1,5 @@
 package com.spring.study.domain;
 
-import lombok.Data;
 
 import java.util.Date;
 
@@ -67,7 +66,22 @@ public class BoardVO {
         return updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+    /*public void setUpdateDate(Date updateDate) {
+        this.updateDate = new Date();
+    }*/
+    public void setUpdateDate() {
+        this.updateDate = new Date();
+    }
+
+    @Override
+    public String toString() {
+        return "BoardVO{" +
+                "bno=" + bno +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", writer='" + writer + '\'' +
+                ", regdate=" + regdate +
+                ", updateDate=" + updateDate +
+                '}';
     }
 }

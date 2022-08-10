@@ -2,16 +2,13 @@ package com.spring.study.service;
 
 import com.spring.study.domain.BoardVO;
 import com.spring.study.repository.BoardRepository;
-import com.spring.study.repository.JdbcTemplateBoardRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Component;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Transactional
 class BoardServiceImplTest {
     @Autowired
     BoardService boardService;
@@ -30,5 +27,30 @@ class BoardServiceImplTest {
 
     @Test
     void get() {
+        BoardVO boardVO = new BoardVO();
+        boardVO.setBno(3L);
+
+        boardService.get(boardVO.getBno());
     }
+
+    @Test
+    void modify(){
+        BoardVO boardVO = new BoardVO();
+        boardVO.setTitle("김태우입니다.");
+        boardVO.setContent("JDBC 실험입니다.");
+        boardVO.setWriter("킹태우");
+
+        boardService.modify(boardVO);
+    }
+
+    @Test
+    void remove() {
+        boardService.remove(3L);
+    }
+
+    @Test
+    void getList() {
+        boardService.getList();
+    }
+
 }
