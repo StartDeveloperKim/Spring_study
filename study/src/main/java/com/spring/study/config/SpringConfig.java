@@ -33,9 +33,4 @@ public class SpringConfig {
         return new BoardServiceImpl(boardRepository());
     }
 
-    /*@Bean
-    public BoardController boardController(){
-        return new BoardController(boardService());
-    }*/
-
 }

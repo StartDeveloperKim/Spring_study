@@ -1,24 +1,17 @@
 package com.spring.study.controller;
 
 import com.spring.study.domain.BoardVO;
+import com.spring.study.domain.Critertia;
+import com.spring.study.domain.PageDTO;
 import com.spring.study.service.BoardService;
-import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
-import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Date;
-import java.util.List;
 
 @Controller
-@Log4j
 @RequestMapping("/board/*")
 /*@AllArgsConstructor*/ // 이 어노테이션을 이용하면 필드 내 변수에 대해 생성자를 통해 자동으로 의존주입을 실행한다.
 public class BoardController {
@@ -30,10 +23,20 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    @GetMapping("/list")
+    /*@GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("list", boardService.getList());
         return "board/list";
+    }*/
+
+    @GetMapping("/list")
+    public void list(Critertia critertia, Model model){
+        model.addAttribute("list", boardService.getList(critertia));
+        //model.addAttribute("pageMaker", new PageDTO(critertia, 123));
+
+        int total = boardService.getTotal(critertia);
+
+        model.addAttribute("pageMaker", new PageDTO(critertia, total));
     }
 
     @GetMapping("/register")
@@ -51,25 +54,41 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
-    @GetMapping({"/get", "/modify"})
-    public void get(@RequestParam("bno") Long bno, Model model) {
-        //System.out.println(boardService.get(bno).toString());
+    /*@GetMapping({"/get", "/modify"})
+    public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Critertia cri
+            ,Model model) {
+        System.out.println(bno);
         model.addAttribute("board", boardService.get(bno));
+    }*/
+
+    @GetMapping("/get")
+    public String get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Critertia cri
+            ,Model model) {
+        System.out.println(bno);
+        model.addAttribute("board", boardService.get(bno));
+
+        return "/board/get";
     }
 
     @PostMapping("/modify")
     public String modify(BoardVO boardVO, RedirectAttributes rttr) {
+
         if (boardService.modify(boardVO)) {
             rttr.addFlashAttribute("result", "success");
         }
         return "redirect:/board/list";
+
+
     }
 
     @PostMapping("/remove")
-    public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr){
+    public String remove(@RequestParam("bno") Long bno,
+            @ModelAttribute("cri") Critertia cri, RedirectAttributes rttr){
         if(boardService.remove(bno)){
             rttr.addFlashAttribute("result", "success");
         }
+        rttr.addAttribute("pageNum", cri.getPageNum());
+        rttr.addAttribute("amount", cri.getAmount());
         return "redirect:/board/list";
     }
 }

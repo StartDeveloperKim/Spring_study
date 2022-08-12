@@ -7,17 +7,20 @@ import java.util.List;
 
 public interface BoardService {
 
-    public void register(BoardVO board);
+    public void register(BoardVO board); // 회원등록
 
-    public BoardVO get(Long bno);
+    public BoardVO get(Long bno); // 게시물 한개 가져오기
 
-    public boolean modify(BoardVO board);
+    public boolean modify(BoardVO board); // 게시물 수정하기
 
-    public boolean remove(Long bno);
+    public boolean remove(Long bno); // 게시물 삭제하기
 
     //public List<BoardVO> getList();
 
-    public List<BoardVO> getList(Critertia cri);
+    public List<BoardVO> getList(Critertia cri); // page별로 잘라서 들고오기
 
-    List<BoardVO> getList();
+    public int getTotal(Critertia cri); // 게시물 전체 개수 구해오기
+
+    public List<BoardVO> getFewList(); // Welcome Page에 나올 게시물 6개만 가져오기
+
 }

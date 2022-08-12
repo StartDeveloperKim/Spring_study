@@ -1,14 +1,18 @@
 package com.spring.study.service;
 
 import com.spring.study.domain.BoardVO;
+import com.spring.study.domain.Critertia;
 import com.spring.study.repository.BoardRepository;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @SpringBootTest
-@Transactional
 class BoardServiceImplTest {
     @Autowired
     BoardService boardService;
@@ -50,7 +54,26 @@ class BoardServiceImplTest {
 
     @Test
     void getList() {
-        boardService.getList();
+        Critertia critertia = new Critertia();
+        critertia.setPageNum(1);
+        critertia.setAmount(10);
+        List<BoardVO> result = boardService.getList(critertia);
+
+        for(BoardVO i : result){
+            System.out.println(i.toString());
+        }
+        Assertions.assertThat(result.size()).isEqualTo(10);
+    }
+
+    @Test
+    @DisplayName("총 6개의 데이터를 받아와야 한다.")
+    void getFewListTest(){
+        List<BoardVO> result = boardService.getFewList();
+
+        for (BoardVO i : result) {
+            System.out.println(i.toString());
+        }
+        Assertions.assertThat(result.size()).isEqualTo(6);
     }
 
 }

@@ -2,6 +2,7 @@ package com.spring.study.repository;
 
 import com.spring.study.domain.BoardVO;
 import com.spring.study.domain.Critertia;
+import com.spring.study.domain.UpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -20,18 +21,21 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+    // 아래에 정의한 sql문이 굉장히 보기 싫다. 나중에 정리하는 법을 공부하자 --> 2022/08/11
+    // 현재 JDBC Template을 활용하여 Repository 부분을 만들었다. 다음에 Mybatis를 통해 만들자. 그 다음은 JPA
     private final String insert_sql = "insert into tbl_board (BNO, TITLE, CONTENT, WRITER) values (seq_ser_saleman_cntl.nextval, ?, ?, ?)";
     private final String insertSelectKey_sql = "insert into tbl_board (BNO, TITLE, CONTENT, WRITER) values (?, ?, ?, ?)";
     private final String read_sql = "select * from tbl_board where bno = ?";
     private final String delete_sql = "delete from tbl_board where bno = ?";
-    private final String update_sql = "update tbl_board set title = ?, content = ?, writer = ?, updateDate = sysdate, where bno = ?";
-    private final String getListWithPaging_sql = "SELECT BNO, TITLE, CONTENT " +
+    private final String update_sql = "update tbl_board set title = ?, content = ?, updateDate = ? where bno = ?";
+    private final String getListWithPaging_sql = "SELECT BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDATE " +
             "FROM( " +
-            "    select /*+ INDEX_DESC(tbl_board pk_board)*/ " +
-            "        rownum rn, bno, title, content " +
-            "    from tbl_board " +
-            "    where rn <= 20) " +
-            "WHERE rn > 10";
+            "select /*+ INDEX_DESC(tbl_board pk_board)*/ " +
+            "rownum rn, tbl_board.* " +
+            "from tbl_board " +
+            "where rownum <= ?) " +
+            "WHERE rn > ?";
+    private final String getTotalCount_sql = "select count(*) from tbl_board where bno > 0";
 
     public JdbcTemplateBoardRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -44,7 +48,9 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
 
     @Override
     public List<BoardVO> getListWithPaging(Critertia cri) {
-        return jdbcTemplate.query(getListWithPaging_sql, boardVORowMapper);
+        return jdbcTemplate.query(getListWithPaging_sql, boardVORowMapper,
+                cri.getPageNum()*cri.getAmount(),
+                (cri.getPageNum()-1)*cri.getAmount());
     }
 
     @Override
@@ -93,7 +99,29 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
 
     @Override
     public int update(BoardVO board) {
-        return jdbcTemplate.update(update_sql, board.getTitle(), board.getContent(), board.getWriter(), board.getBno());
+        board.setUpdateDate();
+        return jdbcTemplate.update(update_sql, board.getTitle(), board.getContent(), board.getUpdateDate(), board.getBno());
+    }
+
+    /*@Override
+    public int update(UpdateDTO updateDTO) {
+        updateDTO.setUpdateDate();
+        return jdbcTemplate.update(update_sql, updateDTO.getTitle(), updateDTO.getContent(), updateDTO.getUpdateDate(), updateDTO.getBno());
+    }*/
+
+    @Override
+    public int getTotalCount(Critertia cri) {
+        try {
+            return jdbcTemplate.queryForObject(getTotalCount_sql, rowMapper);
+        } catch (NullPointerException e) {
+            return 0;
+        }
+    }
+
+    @Override
+    public List<BoardVO> getFewList() {
+        //6, 0
+        return jdbcTemplate.query(getListWithPaging_sql, boardVORowMapper, 6, 0);
     }
 
     private RowMapper<BoardVO> boardVORowMapper = new RowMapper<BoardVO>() {
@@ -107,7 +135,14 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
                     rs.getDate("UPDATEDATE")
             );
             boardVO.setBno(rs.getLong("BNO"));
+            //System.out.println(boardVO.toString());
             return boardVO;
+        }
+    };
+    RowMapper<Integer> rowMapper = new RowMapper<>() {
+        @Override
+        public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return rs.getInt(1);
         }
     };
 }
