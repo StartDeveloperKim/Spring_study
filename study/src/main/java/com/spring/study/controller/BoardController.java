@@ -61,13 +61,11 @@ public class BoardController {
         model.addAttribute("board", boardService.get(bno));
     }*/
 
-    @GetMapping("/get")
-    public String get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Critertia cri
+    @GetMapping({"/get", "/modify"})
+    public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Critertia cri
             ,Model model) {
-        System.out.println(bno);
+        //System.out.println(bno);
         model.addAttribute("board", boardService.get(bno));
-
-        return "/board/get";
     }
 
     @PostMapping("/modify")
@@ -84,6 +82,7 @@ public class BoardController {
     @PostMapping("/remove")
     public String remove(@RequestParam("bno") Long bno,
             @ModelAttribute("cri") Critertia cri, RedirectAttributes rttr){
+        System.out.println(bno);
         if(boardService.remove(bno)){
             rttr.addFlashAttribute("result", "success");
         }
