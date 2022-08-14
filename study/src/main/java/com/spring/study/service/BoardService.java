@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BoardService {
 
-    public void register(BoardVO board); // 회원등록
+    public void register(BoardVO board); // 회원글 등록
 
     public BoardVO get(Long bno); // 게시물 한개 가져오기
 

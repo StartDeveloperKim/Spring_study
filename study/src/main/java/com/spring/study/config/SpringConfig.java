@@ -2,8 +2,12 @@ package com.spring.study.config;
 
 import com.spring.study.repository.BoardRepository;
 import com.spring.study.repository.JdbcTemplateBoardRepository;
+import com.spring.study.repository.JdbcTemplateMemberRepository;
+import com.spring.study.repository.MemberRepository;
 import com.spring.study.service.BoardService;
 import com.spring.study.service.BoardServiceImpl;
+import com.spring.study.service.MemberRegisterService;
+import com.spring.study.service.MemberRegisterServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -31,6 +35,16 @@ public class SpringConfig {
     @Bean
     public BoardService boardService() {
         return new BoardServiceImpl(boardRepository());
+    }
+
+    @Bean
+    public MemberRepository memberRepository(){
+        return new JdbcTemplateMemberRepository(dataSource);
+    }
+
+    @Bean
+    public MemberRegisterService memberRegisterService(){
+        return new MemberRegisterServiceImpl(memberRepository());
     }
 
 }
