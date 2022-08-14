@@ -96,8 +96,8 @@
             <h1><strong>어서오세요~</strong></h1>
             <p class="lead text-center font-awesome "><strong>차근차근 나아가는 개발자 공부할 때마다 기능추가</strong></p>
             <p>
-                <a href="#" class="btn btn-primary my-2">로그인</a>
-                <a href="#" class="btn btn-secondary my-2">회원가입</a>
+                <a href="/member/login" class="btn btn-primary my-2">로그인</a>
+                <a href="/member/register" class="btn btn-secondary my-2">회원가입</a>
             </p>
         </div>
     </section>
