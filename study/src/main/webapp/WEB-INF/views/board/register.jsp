@@ -31,7 +31,7 @@
                     </div>
                     <div class="form-group">
                         <strong><label>내용</label></strong>
-                        <input class="form-control" name='content'>
+                        <textarea class="form-control" rows="5" name='content' ></textarea>
                     </div>
                     <div class="form-group">
                         <strong><label>작성자</label></strong>

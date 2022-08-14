@@ -16,7 +16,7 @@
             <h1><strong>수정하기</strong></h1>
             <p class="lead text-center font-awesome "><strong>${board.bno}번 게시물</strong></p>
             <p>
-                <a href="/board/get?bno=${board.bno}" class="btn btn-primary my-2">뒤로가기</a>
+                <a href="/board/get?pageNum=${cri.pageNum}&amount=${cri.amount}&bno=${board.bno}" class="btn btn-primary my-2">뒤로가기</a>
             </p>
         </div>
     </section>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="form-group">
                     <strong><label>내용</label></strong>
-                    <textarea class="form-control" rows="3" name='content'>
+                    <textarea class="form-control" rows="5" name='content'>
 						<c:out value="${board.content }"/>
 					</textarea>
                 </div>

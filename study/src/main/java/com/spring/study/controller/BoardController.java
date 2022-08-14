@@ -30,12 +30,14 @@ public class BoardController {
     }*/
 
     @GetMapping("/list")
-    public void list(Critertia critertia, Model model){
+    public void list(
+            @RequestParam(required = false, name = "pageNum") String pageNum,
+            @RequestParam(required = false, name = "amount") String amount,
+            Critertia critertia, Model model){
         model.addAttribute("list", boardService.getList(critertia));
-        //model.addAttribute("pageMaker", new PageDTO(critertia, 123));
-
         int total = boardService.getTotal(critertia);
 
+        //System.out.println(critertia.toString());
         model.addAttribute("pageMaker", new PageDTO(critertia, total));
     }
 
@@ -53,13 +55,6 @@ public class BoardController {
 
         return "redirect:/board/list";
     }
-
-    /*@GetMapping({"/get", "/modify"})
-    public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Critertia cri
-            ,Model model) {
-        System.out.println(bno);
-        model.addAttribute("board", boardService.get(bno));
-    }*/
 
     @GetMapping({"/get", "/modify"})
     public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Critertia cri
@@ -82,7 +77,7 @@ public class BoardController {
     @PostMapping("/remove")
     public String remove(@RequestParam("bno") Long bno,
             @ModelAttribute("cri") Critertia cri, RedirectAttributes rttr){
-        System.out.println(bno);
+        //System.out.println(bno);
         if(boardService.remove(bno)){
             rttr.addFlashAttribute("result", "success");
         }
