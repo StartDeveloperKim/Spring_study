@@ -64,14 +64,15 @@ public class BoardController {
     }
 
     @PostMapping("/modify")
-    public String modify(BoardVO boardVO, RedirectAttributes rttr) {
+    public String modify(BoardVO boardVO, @ModelAttribute("cri") Critertia cri, RedirectAttributes rttr) {
 
         if (boardService.modify(boardVO)) {
             rttr.addFlashAttribute("result", "success");
         }
+        rttr.addAttribute("pageNum", cri.getPageNum());
+        rttr.addAttribute("amount", cri.getAmount());
+
         return "redirect:/board/list";
-
-
     }
 
     @PostMapping("/remove")

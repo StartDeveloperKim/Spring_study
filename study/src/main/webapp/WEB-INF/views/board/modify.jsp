@@ -16,7 +16,8 @@
             <h1><strong>수정하기</strong></h1>
             <p class="lead text-center font-awesome "><strong>${board.bno}번 게시물</strong></p>
             <p>
-                <a href="/board/get?pageNum=${cri.pageNum}&amount=${cri.amount}&bno=${board.bno}" class="btn btn-primary my-2">뒤로가기</a>
+                <a href="/board/get?pageNum=${cri.pageNum}&amount=${cri.amount}&bno=${board.bno}"
+                   class="btn btn-primary my-2">뒤로가기</a>
             </p>
         </div>
     </section>
@@ -47,7 +48,7 @@
                            value='<c:out value="${board.writer}"/>' readonly="readonly">
                 </div>
                 <button type="submit" data-oper='modify' class="btn btn-outline-primary"
-                        formaction='/board/modify?bno=<c:out value="${board.bno }"/>'>수정
+                        formaction="/board/modify?pageNum=${cri.pageNum}&amount=${cri.amount}&bno=${board.bno}">수정
                 </button>
                 <button type="submit" data-oper='remove' class="btn btn-outline-danger"
                             formaction='/board/remove?bno=<c:out value="${board.bno }"/>'>삭제
