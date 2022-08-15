@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!doctype html>
 <html lang="ko">
@@ -94,11 +96,17 @@
 
     <div class="row justify-content-md-center">
       <div class="col-md-8">
+<%--
         <form action="/member/register" method="post" class="needs-validation" novalidate>
-
+--%>
+        <form:form action="/member/register" modelAttribute="registerDTO">
           <div>
             <label for="id" class="form-label">아이디</label>
+<%--
             <input type="text" class="form-control" id="id" placeholder="ID" value="" required name="id">
+--%>
+            <form:input path="id" cssClass="form-control"/>
+            <form:errors path="id"/>
             <div class="invalid-feedback">
               Valid first name is required.
             </div>
@@ -106,7 +114,11 @@
 
           <div>
             <label for="password" class="form-label">비밀번호</label>
+<%--
             <input type="password" class="form-control" id="password" placeholder="Password" value="" required name="password">
+--%>
+            <form:input path="password"/>
+            <form:errors path="password"/>
             <div class="invalid-feedback">
               Valid last name is required.
             </div>
@@ -114,7 +126,11 @@
 
           <div>
             <label for="confirmPassword" class="form-label">비밀번호확인</label>
+<%--
             <input type="password" class="form-control" id="confirmPassword" placeholder="confirmPassword" value="" required name="confirmPassword">
+--%>
+            <form:input path="confirmPassword"/>
+            <form:errors path="confirmPassword"/>
             <div class="invalid-feedback">
               Valid last name is required.
             </div>
@@ -123,8 +139,11 @@
           <div>
             <label for="username" class="form-label">이름</label>
             <div class="input-group has-validation">
-
+<%--
               <input type="text" class="form-control" id="username" placeholder="Username" required name="name">
+--%>
+              <form:input path="name"/>
+              <form:errors path="name"/>
               <div class="invalid-feedback">
                 Your username is required.
               </div>
@@ -134,22 +153,28 @@
           <div>
             <label for="nickname" class="form-label">닉네임</label>
             <div class="input-group has-validation">
-
+<%--
               <input type="text" class="form-control" id="nickname" placeholder="nickname" required name="nickname">
+--%>
+              <form:input path="nickname" />
+              <form:errors path="nickname"/>
               <div class="invalid-feedback">
                 Your username is required.
               </div>
             </div>
           </div>
 
-
+          <%--약관 동의에 대한 Modal과 값을 넘겨서 동의할때만 등록할 수 있도록 수정하자--%>
           <div class="form-check">
             <input type="checkbox" class="form-check-input" id="same-address">
             <label class="form-check-label" for="same-address">약관을 동의하십니까?</label>
           </div>
 
           <button class="btn btn-outline-primary btn-lg btn-block" type="submit">회원가입</button>
+<%--
         </form>
+--%>
+        </form:form>
       </div>
     </div>
   </main>

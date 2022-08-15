@@ -13,7 +13,7 @@ public class RegisterDTO {
     private String name;
     private String nickname;
 
-    boolean isEqualPasswordConfirmPassword() {
+    public boolean isEqualPasswordConfirmPassword() {
         return password.equals(confirmPassword);
     }
 }
