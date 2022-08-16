@@ -1,5 +1,12 @@
 package com.spring.study.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
 public class Critertia {
 
     private int pageNum;
@@ -12,30 +19,6 @@ public class Critertia {
     public Critertia(int pageNum, int amount) {
         this.pageNum = pageNum;
         this.amount = amount;
-    }
-
-    public int getPageNum() {
-        return pageNum;
-    }
-
-    public void setPageNum(int pageNum) {
-        this.pageNum = pageNum;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    @Override
-    public String toString() {
-        return "Critertia{" +
-                "pageNum=" + pageNum +
-                ", amount=" + amount +
-                '}';
     }
 }
 

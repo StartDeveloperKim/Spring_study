@@ -8,15 +8,18 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 @Repository
+@Transactional
 public class JdbcTemplateBoardRepository implements BoardRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -37,6 +40,7 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
             "WHERE rn > ?";
     private final String getTotalCount_sql = "select count(*) from tbl_board where bno > 0";
 
+    @Autowired
     public JdbcTemplateBoardRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
@@ -99,7 +103,7 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
 
     @Override
     public int update(BoardVO board) {
-        board.setUpdateDate();
+        board.setUpdateDate(new Date());
         return jdbcTemplate.update(update_sql, board.getTitle(), board.getContent(), board.getUpdateDate(), board.getBno());
     }
 

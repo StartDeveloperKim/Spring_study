@@ -27,24 +27,4 @@ public class SpringConfig {
         this.dataSource = dataSource;
     }
 
-    @Bean
-    public BoardRepository boardRepository() {
-        return new JdbcTemplateBoardRepository(dataSource);
-    }
-
-    @Bean
-    public BoardService boardService() {
-        return new BoardServiceImpl(boardRepository());
-    }
-
-    @Bean
-    public MemberRepository memberRepository(){
-        return new JdbcTemplateMemberRepository(dataSource);
-    }
-
-    @Bean
-    public MemberRegisterService memberRegisterService(){
-        return new MemberRegisterServiceImpl(memberRepository());
-    }
-
 }

@@ -4,6 +4,7 @@ import com.spring.study.domain.BoardVO;
 import com.spring.study.domain.Critertia;
 import com.spring.study.domain.PageDTO;
 import com.spring.study.service.BoardService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,22 +13,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
+@RequiredArgsConstructor // 생성자 대신 내부 프로퍼티에 자동 의존주입
 @RequestMapping("/board/*")
 /*@AllArgsConstructor*/ // 이 어노테이션을 이용하면 필드 내 변수에 대해 생성자를 통해 자동으로 의존주입을 실행한다.
 public class BoardController {
 
     private final BoardService boardService;
-
-    @Autowired
-    public BoardController(BoardService boardService) {
-        this.boardService = boardService;
-    }
-
-    /*@GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("list", boardService.getList());
-        return "board/list";
-    }*/
 
     @GetMapping("/list")
     public void list(

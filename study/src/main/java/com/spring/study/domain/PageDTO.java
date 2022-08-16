@@ -1,5 +1,10 @@
 package com.spring.study.domain;
 
+import lombok.Getter;
+import lombok.ToString;
+
+@Getter
+@ToString
 public class PageDTO {
 
     private int startPage;
@@ -30,39 +35,4 @@ public class PageDTO {
         this.next = this.endPage < realEnd;
     }
 
-    public int getStartPage() {
-        return startPage;
-    }
-
-    public int getEndPage() {
-        return endPage;
-    }
-
-    public boolean isPrev() {
-        return prev;
-    }
-
-    public boolean isNext() {
-        return next;
-    }
-
-    public int getTotal() {
-        return total;
-    }
-
-    public Critertia getCri() {
-        return cri;
-    }
-
-    @Override
-    public String toString() {
-        return "PageDTO{" +
-                "startPage=" + startPage +
-                ", endPage=" + endPage +
-                ", prev=" + prev +
-                ", next=" + next +
-                ", total=" + total +
-                ", cri=" + cri +
-                '}';
-    }
 }

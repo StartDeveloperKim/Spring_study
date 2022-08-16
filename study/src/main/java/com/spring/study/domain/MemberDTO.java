@@ -7,7 +7,6 @@ import java.util.Date;
 
 @Getter
 @Setter
-
 public class MemberDTO {
 
     private String id;
