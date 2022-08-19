@@ -4,11 +4,13 @@ package com.spring.study.repository;
 import com.spring.study.domain.BoardVO;
 import com.spring.study.domain.Critertia;
 import com.spring.study.domain.UpdateDTO;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
 public interface BoardRepository {
-    public List<BoardVO> getList(); //
+
+    public List<BoardVO> getList();
 
     public List<BoardVO> getListWithPaging(Critertia cri); // 페이지별 리스트 가져오기
 

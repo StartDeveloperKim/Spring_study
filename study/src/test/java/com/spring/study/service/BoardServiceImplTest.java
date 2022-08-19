@@ -16,7 +16,7 @@ import java.util.List;
 class BoardServiceImplTest {
     @Autowired
     BoardService boardService;
-    @Autowired
+
     BoardRepository boardRepository;
 
     @Test
@@ -74,6 +74,15 @@ class BoardServiceImplTest {
             System.out.println(i.toString());
         }
         Assertions.assertThat(result.size()).isEqualTo(6);
+    }
+
+    @Test
+    @DisplayName("getList 테스트")
+    void getListTest(){
+        List<BoardVO> list = boardRepository.getList();
+        for (BoardVO boardVO : list) {
+            System.out.println(boardVO.toString());
+        }
     }
 
 }

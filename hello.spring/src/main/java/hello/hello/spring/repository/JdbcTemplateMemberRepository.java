@@ -3,9 +3,12 @@ package hello.hello.spring.repository;
 import hello.hello.spring.member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -26,7 +29,7 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
 
     @Override
     public void save(Member member) {
-        /*jdbcTemplate.update(new PreparedStatementCreator() {
+        jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                 PreparedStatement pstmt = con.prepareStatement(save_sql);
@@ -35,8 +38,7 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
                 pstmt.setString(3, member.getName());
                 return pstmt;
             }
-        });*/
-        jdbcTemplate.update(save_sql, member.getId(), member.getPassword(), member.getName());
+        });
     }
 
     @Override

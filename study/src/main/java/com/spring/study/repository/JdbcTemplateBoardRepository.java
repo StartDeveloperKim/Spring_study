@@ -107,12 +107,6 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
         return jdbcTemplate.update(update_sql, board.getTitle(), board.getContent(), board.getUpdateDate(), board.getBno());
     }
 
-    /*@Override
-    public int update(UpdateDTO updateDTO) {
-        updateDTO.setUpdateDate();
-        return jdbcTemplate.update(update_sql, updateDTO.getTitle(), updateDTO.getContent(), updateDTO.getUpdateDate(), updateDTO.getBno());
-    }*/
-
     @Override
     public int getTotalCount(Critertia cri) {
         try {
