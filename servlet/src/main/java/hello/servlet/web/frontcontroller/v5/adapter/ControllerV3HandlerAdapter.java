@@ -21,8 +21,9 @@ public class ControllerV3HandlerAdapter implements MyHandlerAdapter {
     public ModelView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException, IOException {
         ControllerV3 controller = (ControllerV3) handler;
 
+        /*Request에 들어온 Parameter를 모두 Map에 저장*/
         Map<String, String> paramMap = createParamMap(request);
-        ModelView mv = controller.process(paramMap);
+        ModelView mv = controller.process(paramMap); // ModelView반환
 
         return mv;
     }

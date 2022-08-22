@@ -28,10 +28,10 @@ import java.util.Map;
 public class FrontControllerServletV5 extends HttpServlet {
 
     /*유연하게 넣기위해 value를 Object 타입으로 넣었음*/
-    private final Map<String, Object> handlerMappingMap = new HashMap<>();
-    private final List<MyHandlerAdapter> handlerAdapters = new ArrayList<>();
+    private final Map<String, Object> handlerMappingMap = new HashMap<>(); // URI 저장소
+    private final List<MyHandlerAdapter> handlerAdapters = new ArrayList<>(); // Adapter 저장소
 
-    /*V3 URI와 거기에 맞는 핸들러 어댑터를 넣음*/
+    /********************URI // Adater 초기화***************************/
     public FrontControllerServletV5() {
         initHandlerMappingMap();
         initHandlerAdapters();
@@ -51,6 +51,7 @@ public class FrontControllerServletV5 extends HttpServlet {
         handlerMappingMap.put("/front-controller/v5/v4/members/save", new MemberSaveControllerV4());
         handlerMappingMap.put("/front-controller/v5/v4/members", new MemberListControllerV4());
     }
+    /****************************************************************/
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -79,9 +80,7 @@ public class FrontControllerServletV5 extends HttpServlet {
     private MyHandlerAdapter getHandlerAdapter(Object handler) {
         for (MyHandlerAdapter adapter : handlerAdapters) {
             if (adapter.supports(handler)) {
-                if(adapter.supports(handler)){
-                    return adapter;
-                }
+                return adapter;
             }
         }
         throw new IllegalArgumentException("handler adapter를 찾을 수 없습니다. handler=" + handler);
@@ -89,6 +88,6 @@ public class FrontControllerServletV5 extends HttpServlet {
 
     private Object getHandler(HttpServletRequest request) {
         String requestURI = request.getRequestURI(); // uri를 받고
-        return handlerMappingMap.get(requestURI);
+        return handlerMappingMap.get(requestURI); // URI 반환
     }
 }

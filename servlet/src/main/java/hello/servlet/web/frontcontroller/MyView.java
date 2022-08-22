@@ -11,12 +11,14 @@ import java.util.Map;
 
 public class MyView {
 
+    /*View 페이지 경로*/
     private String viewPath;
 
     public MyView(String viewPath) {
         this.viewPath = viewPath;
     }
 
+    /*중복되던 두 코드를 하나의 함수로 만들었다.*/
     public void render(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
         dispatcher.forward(request, response);
