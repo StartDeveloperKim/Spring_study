@@ -6,9 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Slf4j
-//@Controller
+@Controller
 public class ErrorPageController {
 
     @RequestMapping("/error-page/404")
@@ -18,8 +19,8 @@ public class ErrorPageController {
     }
 
     @RequestMapping("/error-page/500")
-    public String errorPage500(HttpServletRequest request, HttpServletResponse response) {
+    public void errorPage500(HttpServletRequest request, HttpServletResponse response) throws IOException {
         log.info("errorPage 500");
-        return "error-page/500";
+        response.sendError(500);
     }
 }
