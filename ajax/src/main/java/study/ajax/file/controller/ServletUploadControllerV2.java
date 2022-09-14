@@ -51,13 +51,13 @@ public class ServletUploadControllerV2 {
             log.info("submittedFileName={}", part.getSubmittedFileName());
             log.info("size={}", part.getSize());
 
-
+            //데이터 읽기
             InputStream inputStream = part.getInputStream();
             String body = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
             log.info("body={}", body);
 
             if (StringUtils.hasText(part.getSubmittedFileName())) {
-                String fullPath = fileDir;
+                String fullPath = fileDir + part.getSubmittedFileName();
                 log.info("파일 저장 fullPath={}", fullPath);
                 part.write(fullPath);
             }

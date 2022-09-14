@@ -9,6 +9,6 @@ public class Item {
 
     private Long id;
     private String itemName;
-    private UploadFile attachFile;
-    private List<UploadFile> imageFiles;
+    private UploadFile attachFile; // 첨부파일
+    private List<UploadFile> imageFiles; // 이미지파일들
 }
