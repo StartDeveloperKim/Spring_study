@@ -1,0 +1,45 @@
+package jpabook.jpashop.service;
+
+import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+// readOnly 설정을 추가하면 읽기 작업을 하는데 있어서는 최적화를 해준다.
+// 하지만 쓰기 작업은 readOnly를 하면 작업이 일어나지 않기 때문에 아래와 같이 @Transactional 어노테이션을 붙여야한다.
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
+public class MemberService {
+
+    private final MemberRepository memberRepository;
+
+    // 회원 가입
+    @Transactional
+    public Long join(Member member) {
+        validateDuplicateMember(member); // 중복 회원 검증
+        memberRepository.save(member);
+        return member.getId();
+    }
+
+    private void validateDuplicateMember(Member member) {
+        // 예외처리
+        List<Member> findMembers = memberRepository.findByName(member.getName());
+        if (!findMembers.isEmpty()) {
+            throw new IllegalStateException("이미 존재하는 회원입니다.");
+        }
+    }
+
+    //회원 전체 조회
+    public List<Member> findMembers() {
+        return memberRepository.findAll();
+    }
+
+    public Member findOne(Long memberId) {
+        return memberRepository.findOne(memberId);
+    }
+}

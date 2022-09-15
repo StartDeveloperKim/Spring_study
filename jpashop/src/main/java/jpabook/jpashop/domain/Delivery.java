@@ -16,7 +16,7 @@ public class Delivery {
     private Long id;
 
     @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)
-    private Order order;
+    private Order order; // 하나의 배송(Delivery)에는 하나의 주문(Order)
 
     @Embedded
     private Address address;

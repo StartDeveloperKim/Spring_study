@@ -24,5 +24,6 @@ public class Member {
     private Address address;
 
     @OneToMany(mappedBy = "member")
+    // 한명에 회원은 여러개의 주문을 가질 수 있다.
     private List<Order> orders = new ArrayList<>();
 }
