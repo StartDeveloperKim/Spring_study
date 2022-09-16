@@ -17,7 +17,8 @@ public class ItemRepository {
         if (item.getId() == null) {
             em.persist(item); // 신규등록
         } else {
-            em.merge(item); // 업데이트 느낌
+            em.merge(item); // 업데이트 느낌, 병합
+            // merge는 넘어오는 값이 없다면 null로 변경을 한다. 그래서 위험하다.
         }
     }
 
