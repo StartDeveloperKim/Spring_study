@@ -7,7 +7,7 @@ spring:
 
   jpa: #띄어쓰기 2칸
     hibernate: #띄어쓰기 4칸
-      ddl-auto: create #띄어쓰기 6칸
+      ddl-auto: create #띄어쓰기 6칸, create면 애플리케이션 실행시점에 테이블을 다 드랍하고 다시 만든다. none
     properties: #띄어쓰기 4칸
       hibernate: #띄어쓰기 6칸
         # show_sql: true #띄어쓰기 8칸

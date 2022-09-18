@@ -1,5 +1,6 @@
 package jpabook.jpashop.repository;
 
+import jpabook.jpashop.api.OrderSimpleApiController;
 import jpabook.jpashop.domain.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -50,5 +51,22 @@ public class OrderRepository {
         TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000);
 
         return query.getResultList();
+    }
+
+    public List<Order> findAllWithMemberDelivery() {
+        // 한번의 쿼리로 객체에 값을 다 채워서 가져온다, LAZY도 무시한다 --> Fetch Join
+        return em.createQuery(
+                "select o from Order o" +
+                        " join fetch o.member m" +
+                        " join fetch  o.delivery d", Order.class
+        ).getResultList();
+    }
+
+    public List<SimpleOrderQueryDto> findOrderDtos() {
+        return em.createQuery(
+                "select o from Order o" +
+                        " join o.member m" +
+                        " join o.delivery d", SimpleOrderQueryDto.class
+        ).getResultList();
     }
 }

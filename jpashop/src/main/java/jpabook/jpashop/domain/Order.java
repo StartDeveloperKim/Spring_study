@@ -47,8 +47,8 @@ public class Order {
 
     // == 연관관계 편의 메서드 == //
     public void setMember(Member member) {
-        this.member = member;
-        member.getOrders().add(this);
+        this.member = member; // 멤버 설정
+        member.getOrders().add(this); // 객체는 참조를 통해 관계를 맺기에 이렇게 관계를 설정해줘야 한다
     }
 
     public void addOrderItem(OrderItem orderItem) {
