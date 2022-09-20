@@ -65,14 +65,14 @@ public class InitDb {
             em.persist(order);
         }
 
-        private static Member createMember(String name, String city, String street, String zipcode) {
+        private  Member createMember(String name, String city, String street, String zipcode) {
             Member member = new Member();
             member.setName(name);
             member.setAddress(new Address(city, street, zipcode));
             return member;
         }
 
-        private static Book createBook(String book, int price) {
+        private  Book createBook(String book, int price) {
             Book book1 = new Book();
             book1.setName(book);
             book1.setPrice(price);

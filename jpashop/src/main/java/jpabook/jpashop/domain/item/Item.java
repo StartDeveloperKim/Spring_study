@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // Single Table 전략
 @DiscriminatorColumn(name = "dtype")
 @Getter
 @Setter
@@ -28,6 +28,7 @@ public abstract class Item {
 
     @ManyToMany(mappedBy = "items")
     // 하나의 Item은 여러 카테고리에 포함될 수 있다.
+    // 실무에서는 다대다를 사용하지 않는 것을 권장한다.
     private List<Category> categories = new ArrayList<>();
 
     //== 비즈니스 로직 ==//

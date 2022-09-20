@@ -29,7 +29,7 @@ public class OrderItem {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
-    private Order order;
+    private Order order; // 외래키 -> 연관관계 주인, Order 클래스에 mappedBy 속성을 사용해야함
 
     private int orderPrice; // 주문 가격
     private int count; // 주문 수량
