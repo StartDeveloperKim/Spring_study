@@ -1,4 +1,4 @@
-package web.service.web;
+package web.service.web.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
