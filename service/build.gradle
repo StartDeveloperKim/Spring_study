@@ -28,6 +28,11 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mustache
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mustache'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-client
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client'
+	// https://mvnrepository.com/artifact/org.springframework.session/spring-session-jdbc
+	implementation group: 'org.springframework.session', name: 'spring-session-jdbc'
+
 
 }
 

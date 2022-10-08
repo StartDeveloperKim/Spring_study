@@ -11,6 +11,13 @@
         <div class="row">
             <div class="col-md-6">
                 <a href="/posts/save" role="button" class="btn btn-primary">글 등록</a>
+                <p th:if="${userName!=null}">
+                    Logged in as: <span id="user" th:text="${userName}"></span>
+                    <a href="/logout" class="btn bnt-info active" role="button">로그아웃</a>
+                </p>
+                <p th:if="${userName==null}">
+                    <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">구글 로그인</a>
+                </p>
             </div>
         </div>
         <br>

@@ -3,8 +3,10 @@ package web.service.web.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import web.service.domain.posts.Posts;
 
+@ToString
 @Getter
 @NoArgsConstructor
 public class PostsSaveRequestDto {
